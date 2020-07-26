@@ -17,3 +17,21 @@ function buildTable(data) {
         });
 	});
 }
+
+// Create a function to handle clicks:
+function handleClick() {
+    let date = d3.select("#datetime").property("value"); // tell D3 to look for the #datetime id in the HTML tags. .property("value") will grab that information
+    let filteredData = tableData; // set default filter to original table
+
+    if (date) {
+        filteredData = filteredData.filter(row => row.datetime === date);
+    };
+
+    buildTable(filteredData); // If no date is filtered, the original table will be chosen. 
+}
+
+// The handleClick function will handle what happens when the button is clicked, but first we need to detect the click:
+d3.selectAll("#filter-btn").on("click", handleClick);
+
+// Build the table when the page loads:
+buildTable(tableData);
