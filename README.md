@@ -1,6 +1,8 @@
 # UFOs
 UC Berkeley Extension Data Analytics Boot Camp Module 11
 
+<i> Run the **index.html** file to view the webpage.</i>
+
 ---
 
 ## Objective:
