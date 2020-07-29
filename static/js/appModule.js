@@ -27,6 +27,7 @@ function handleClick() {
         filteredData = filteredData.filter(row => row.datetime === date);
     };
 
+
     buildTable(filteredData); // If no date is filtered, the original table will be chosen. 
 }
 

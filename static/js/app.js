@@ -27,37 +27,54 @@ function buildTable(data) {
 var filters = {};
 
 // This function will replace your handleClick function
-function updateFilters() {
-  let date = d3.select("#datetime").property("value"); // tell D3 to look for the #datetime id in the HTML tags. .property("value") will grab that information
-  if (date) {
-      filteredData = filteredData.filter(row => row.datetime === date);
-      filters
-  };
 
-  let city = d3.select("#city").property("value");
-  if (city) {
-    filteredData = filteredData.filter(row => row.city === city);
-  }
-
-  let state = d3.select("#state").property("value");
-  if (state) {
-    filteredData = filteredData.filter(row => row.state === state);
-  }
-
-  let country = d3.select("#country").property("value");
-  if (country) {
-    filteredData = filteredData.filter(row => row.country === country);
-  } 
-
-  let shape = d3.select("#shape").property("value");
-  if (shape) {
-    filteredData = filteredData.filter(row => row.shape === shape);
-  } 
   // Save the element, value, and id of the filter that was changed
 
 
   // If a filter value was entered then add that filterId and value
   // to the filters list. Otherwise, clear that filter from the filters object
+
+function updateFilters() {
+  let date = d3.select("#datetime").property("value"); // tell D3 to look for the #datetime id in the HTML tags. .property("value") will grab that information
+  if (date) {
+    filters['datetime'] = date; //if the date filter is active, update with the new date
+  }
+  else {
+    delete filters['datetime']; // if not, delete it
+  }
+
+  let city = d3.select("#city").property("value");
+  if (city) {
+    filters['city'] = city;
+  }
+  else {
+    delete filters['city'];
+  }
+
+  let state = d3.select("#state").property("value");
+  if (state) {
+    filters['state'] = city;
+  }
+  else {
+    delete filters['state'];
+  }
+
+  let country = d3.select("#country").property("value");
+  if (country) {
+    filters['country'] = country;
+  }
+  else {
+    delete filters['country'];
+  }
+
+  let shape = d3.select("#shape").property("value");
+  if (shape) {
+    filters['shape'] = shape;
+  }
+  else {
+    delete filters['shape'];
+  }
+
 
   // Call function to apply all filters and rebuild the table
   filterTable();
@@ -71,9 +88,11 @@ function filterTable() {
   // Loop through all of the filters and keep any data that
   // matches the filter values
   
-  filteredData = filteredData.filter(function(filteredData) {
-    return filteredData.forEach(function filteredData.keys() == filters.keys() 
-  });
+  if(filters) {
+    Object.keys(filters).forEach(function (key){
+        filteredData = filteredData.filter(row => row[key] === filters[key]);
+    });
+  }
 
 
 
@@ -83,6 +102,8 @@ function filterTable() {
 
 // Attach an event to listen for changes to each filter
 // Hint: You'll need to select the event and what it is listening for within each set of parenthesis
+
+d3.selectAll("input").on("change", updateFilters);
 d3.selectAll("#filter-btn").on("click",filterTable);
 
 // Build the table when the page loads
